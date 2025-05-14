@@ -1,83 +1,63 @@
-const car = document.getElementById("car");
-const enemies = [document.getElementById("enemy1"), document.getElementById("enemy2"), document.getElementById("enemy3")];
-const lines = [document.getElementById("line1"), document.getElementById("line2"), document.getElementById("line3")];
-const scoreDisplay = document.getElementById("score");
-const gameOverScreen = document.getElementById("gameOver");
-const restartBtn = document.getElementById("restartBtn");
-const submitBtn = document.getElementById("submitBtn");
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
 
-let carX = 175;
+// पात्र की स्थिति और गति
+let playerX = 375;
+let playerY = 550;
+let playerSpeed = 5;
+
+// एलियन की स्थिति और गति
+let alienX = Math.random() * 750;
+let alienY = 0;
+let alienSpeed = 2;
+
+// स्कोर
 let score = 0;
-let enemySpeed = 5;
-let lineSpeed = 6;
-let gameRunning = true;
+// गेम लूप
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function randomX() {
-  return Math.floor(Math.random() * 7) * 50;
+  // पात्र को ड्रॉ करें
+  ctx.fillStyle = '#000';
+  ctx.fillRect(playerX, playerY, 50, 50);
+
+  // एलियन को ड्रॉ करें
+  ctx.fillStyle = '#f00';
+  ctx.fillRect(alienX, alienY, 50, 50);
+
+  // एलियन की गति को अपडेट करें
+  alienY += alienSpeed;
+
+  // स्कोर को अपडेट करें
+  score++;
+
+  // टकराव की जांच करें
+  if (alienY > playerY && alienY < playerY + 50 && alienX > playerX && alienX < playerX + 50) {
+    alert('गेम ओवर!');
+    score = 0;
+  }
+
+  // एलियन को रीसेट करें
+  if (alienY > canvas.height) {
+    alienX = Math.random() * 750;
+    alienY = 0;
+  }
+
+  // स्कोर को प्रदर्शित करें
+  ctx.font = '24px Arial';
+  ctx.fillStyle = '#000';
+  ctx.fillText(`स्कोर: ${score}`, 10, 30);
+
+  requestAnimationFrame(gameLoop);
 }
 
-enemies.forEach((e, i) => {
-  e.style.left = randomX() + "px";
-  e.style.top = (-i * 200) + "px";
+gameLoop();
+
+// कीबोर्ड इवेंट को हैंडल करें
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') {
+    playerX -= playerSpeed;
+  } else if (e.key === 'ArrowRight') {
+    playerX += playerSpeed;
+  }
 });
-
-lines.forEach((l, i) => {
-  l.style.top = (i * 200) + "px";
-});
-
-function updateGame() {
-  if (!gameRunning) return;
-
-  enemies.forEach(enemy => {
-    let top = parseInt(enemy.style.top);
-    top += enemySpeed;
-    if (top > 600) {
-      top = -100;
-      enemy.style.left = randomX() + "px";
-      score++;
-      scoreDisplay.innerText = "Score: " + score;
-      if (score % 10 === 0) enemySpeed++;
-    }
-    enemy.style.top = top + "px";
-
-    if (top + 100 >= 500 && top <= 600 &&
-        parseInt(enemy.style.left) < carX + 50 &&
-        parseInt(enemy.style.left) + 50 > carX) {
-      gameRunning = false;
-      gameOverScreen.style.display = "block";
-    }
-  });
-
-  lines.forEach(line => {
-    let top = parseInt(line.style.top);
-    top += lineSpeed;
-    if (top > 600) top = -80;
-    line.style.top = top + "px";
-  });
-
-  requestAnimationFrame(updateGame);
-}
-
-document.addEventListener("keydown", (e) => {
-  if (!gameRunning) return;
-  if (e.key === "ArrowLeft" && carX > 0) carX -= 50;
-  if (e.key === "ArrowRight" && carX < 350) carX += 50;
-  car.style.left = carX + "px";
-});
-
-restartBtn.onclick = () => window.location.reload();
-
-submitBtn.onclick = () => {
-  const name = document.getElementById("playerName").value;
-  fetch("/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, score })
-  })
-  .then(res => res.json())
-  .then(data => {
-    alert("Score saved!");
-  });
-};
-
-updateGame();

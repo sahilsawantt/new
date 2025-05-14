@@ -1,27 +1,16 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>2D Car Game</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>स्पेस शूटर</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="score">Score: 0</div>
-  <div id="gameArea">
-    <div class="car" id="car"></div>
-    <div class="enemy" id="enemy1"></div>
-    <div class="enemy" id="enemy2"></div>
-    <div class="enemy" id="enemy3"></div>
-    <div class="line" id="line1"></div>
-    <div class="line" id="line2"></div>
-    <div class="line" id="line3"></div>
-    <div id="gameOver">
-      Game Over!<br>
-      <input type="text" id="playerName" placeholder="Enter your name"><br>
-      <button id="submitBtn">Submit Score</button>
-      <button id="restartBtn">Restart</button>
-    </div>
-  </div>
+  <canvas id="game-canvas" width="800" height="600"></canvas>
+  <script src="script.js"></script>
+</body>
+</html>
+
   <script src="{{ url_for('static', filename='game.js') }}"></script>
 </body>
 </html> 
