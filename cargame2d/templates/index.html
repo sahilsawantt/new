@@ -1,16 +1,27 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>स्पेस शूटर</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>2D Car Game</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
- hii
-  <script src="script.js"></script>
-</body>
-</html>
-
+  <div id="score">Score: 0</div>
+  <div id="gameArea">
+    <div class="car" id="car"></div>
+    <div class="enemy" id="enemy1"></div>
+    <div class="enemy" id="enemy2"></div>
+    <div class="enemy" id="enemy3"></div>
+    <div class="line" id="line1"></div>
+    <div class="line" id="line2"></div>
+    <div class="line" id="line3"></div>
+    <div id="gameOver">
+      Game Over!<br>
+      <input type="text" id="playerName" placeholder="Enter your name"><br>
+      <button id="submitBtn">Submit Score</button>
+      <button id="restartBtn">Restart</button>
+    </div>
+  </div>
   <script src="{{ url_for('static', filename='game.js') }}"></script>
 </body>
 </html> 
