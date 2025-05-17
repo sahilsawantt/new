@@ -1,9 +1,78 @@
-body { background: #111; font-family: sans-serif; }
-#gameArea { width: 400px; height: 600px; margin: 0 auto; background: #444; position: relative; overflow: hidden; border: 5px solid white; }
-.car, .enemy { width: 50px; height: 100px; position: absolute; }
-.car { background: red; bottom: 10px; left: 175px; z-index: 2; }
-.enemy { background: black; top: -100px; z-index: 1; }
-.line { position: absolute; width: 10px; height: 80px; background: white; left: 195px; top: 0; z-index: 0; }
-#score { text-align: center; font-size: 20px; color: white; margin-top: 10px; }
-#gameOver { display: none; position: absolute; top: 40%; width: 100%; text-align: center; color: white; background: rgba(0,0,0,0.7); padding: 20px; z-index: 3; }
-input, button { margin-top: 10px; padding: 8px; font-size: 16px; }
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+#score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    z-index: 2;
+}
+
+#gameArea {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    margin: 0 auto;
+    background: #333;
+    overflow: hidden;
+    border: 2px solid white;
+}
+
+#car {
+    width: 50px;
+    height: 100px;
+    position: absolute;
+    bottom: 10px;
+    left: 175px;
+    background: url('/static/images/player.png') no-repeat center center;
+    background-size: cover;
+}
+
+.enemy {
+    width: 50px;
+    height: 100px;
+    position: absolute;
+    background-size: cover;
+}
+
+#enemy1 {
+    background-image: url('/static/images/enemy1.png');
+}
+
+#enemy2 {
+    background-image: url('/static/images/enemy2.png');
+}
+
+#enemy3 {
+    background-image: url('/static/images/enemy3.png');
+}
+
+.line {
+    position: absolute;
+    width: 5px;
+    height: 100px;
+    background: white;
+}
+
+#gameOver {
+    position: absolute;
+    top: 250px;
+    left: 100px;
+    display: none;
+    font-size: 24px;
+    color: red;
+    z-index: 2;
+}
+
+#submitBtn, #restartBtn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

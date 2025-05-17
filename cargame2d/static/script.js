@@ -1,85 +1,119 @@
-const car = document.getElementById("car");
-const enemies = [document.getElementById("enemy1"), document.getElementById("enemy2"), document.getElementById("enemy3")];
-const lines = [document.getElementById("line1"), document.getElementById("line2"), document.getElementById("line3")];
-const scoreDisplay = document.getElementById("score");
-const gameOverScreen = document.getElementById("gameOver");
-const restartBtn = document.getElementById("restartBtn");
-const submitBtn = document.getElementById("submitBtn");
+let car = document.getElementById("car");
+let gameArea = document.getElementById("gameArea");
+let score = document.getElementById("score");
+let gameOver = document.getElementById("gameOver");
+let submitBtn = document.getElementById("submitBtn");
+let playerName = document.getElementById("PlayerName");
+let restartBtn = document.getElementById("restartBtn");
 
-let carX = 175;
-let score = 0;
-let enemySpeed = 5;
-let lineSpeed = 6;
-let gameRunning = true;
+let enemies = [
+    document.getElementById("enemy1"),
+    document.getElementById("enemy2"),
+    document.getElementById("enemy3")
+];
 
-function randomX() {
-  return Math.floor(Math.random() * 7) * 50;
-}
+let lines = [
+    document.getElementById("line1"),
+    document.getElementById("line2"),
+    document.getElementById("line3")
+];
 
-enemies.forEach((e, i) => {
-  e.style.left = randomX() + "px";
-  e.style.top = (-i * 200) + "px";
-});
-
-lines.forEach((l, i) => {
-  l.style.top = (i * 200) + "px";
-});
-
-function updateGame() {
-  if (!gameRunning) return;
-
-  enemies.forEach(enemy => {
-    let top = parseInt(enemy.style.top);
-    top += enemySpeed;
-    if (top > 600) {
-      top = -100;
-      enemy.style.left = randomX() + "px";
-      score++;
-      scoreDisplay.innerText = "Score: " + score;
-      if (score % 10 === 0) enemySpeed++;
-    }
-    enemy.style.top = top + "px";
-
-    if (
-      top + 100 >= 500 && top <= 600 &&
-      parseInt(enemy.style.left) < carX + 50 &&
-      parseInt(enemy.style.left) + 50 > carX
-    ) {
-      gameRunning = false;
-      gameOverScreen.style.display = "block";
-    }
-  });
-
-  lines.forEach(line => {
-    let top = parseInt(line.style.top);
-    top += lineSpeed;
-    if (top > 600) top = -80;
-    line.style.top = top + "px";
-  });
-
-  requestAnimationFrame(updateGame);
-}
+let player = { speed: 5, score: 0, start: false };
 
 document.addEventListener("keydown", (e) => {
-  if (!gameRunning) return;
-  if (e.key === "ArrowLeft" && carX > 0) carX -= 50;
-  if (e.key === "ArrowRight" && carX < 350) carX += 50;
-  car.style.left = carX + "px";
+    keys[e.key] = true;
 });
 
-restartBtn.onclick = () => window.location.reload();
+document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+});
 
-submitBtn.onclick = () => {
-  const name = document.getElementById("playerName").value;
-  fetch("/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, score })
-  })
-  .then(res => res.json())
-  .then(data => {
-    alert("Score saved!");
-  });
-};
+let keys = {};
 
-updateGame();  // *Ye line sabse important hai*
+function moveLines() {
+    lines.forEach((line) => {
+        let top = parseInt(line.style.top);
+        if (top >= 600) top = -100;
+        line.style.top = top + player.speed + "px";
+    });
+}
+
+function moveEnemies() {
+    enemies.forEach((enemy) => {
+        let top = parseInt(enemy.style.top);
+        if (top >= 600) {
+            top = -100;
+            enemy.style.left = Math.floor(Math.random() * 350) + "px";
+        }
+        enemy.style.top = top + player.speed + "px";
+
+        if (isCollide(car, enemy)) {
+            player.start = false;
+            gameOver.style.display = "block";
+        }
+    });
+}
+
+function isCollide(a, b) {
+    let aRect = a.getBoundingClientRect();
+    let bRect = b.getBoundingClientRect();
+    return !(
+        aRect.bottom < bRect.top ||
+        aRect.top > bRect.bottom ||
+        aRect.right < bRect.left ||
+        aRect.left > bRect.right
+    );
+}
+
+function gamePlay() {
+    if (!player.start) return;
+
+    moveLines();
+    moveEnemies();
+
+    if (keys["ArrowLeft"] && parseInt(car.style.left) > 0)
+        car.style.left = parseInt(car.style.left) - player.speed + "px";
+    if (keys["ArrowRight"] && parseInt(car.style.left) < 350)
+        car.style.left = parseInt(car.style.left) + player.speed + "px";
+
+    player.score++;
+    score.innerText = "Score: " + player.score;
+
+    requestAnimationFrame(gamePlay);
+}
+
+function startGame() {
+    player.start = true;
+    player.score = 0;
+
+    enemies.forEach((enemy, index) => {
+        enemy.style.top = (index + 1) * -150 + "px";
+        enemy.style.left = Math.floor(Math.random() * 350) + "px";
+    });
+
+    lines.forEach((line, index) => {
+        line.style.top = index * 150 + "px";
+        line.style.left = "195px";
+    });
+
+    gameOver.style.display = "none";
+    requestAnimationFrame(gamePlay);
+}
+
+submitBtn.addEventListener("click", () => {
+    fetch("/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: playerName.value,
+            score: player.score,
+        }),
+    }).then((res) => res.json())
+      .then((data) => {
+          alert(data.message);
+      });
+});
+
+restartBtn.addEventListener("click", startGame);
+
+window.onload = startGame;
