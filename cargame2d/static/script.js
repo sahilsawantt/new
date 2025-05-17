@@ -40,9 +40,11 @@ function updateGame() {
     }
     enemy.style.top = top + "px";
 
-    if (top + 100 >= 500 && top <= 600 &&
-        parseInt(enemy.style.left) < carX + 50 &&
-        parseInt(enemy.style.left) + 50 > carX) {
+    if (
+      top + 100 >= 500 && top <= 600 &&
+      parseInt(enemy.style.left) < carX + 50 &&
+      parseInt(enemy.style.left) + 50 > carX
+    ) {
       gameRunning = false;
       gameOverScreen.style.display = "block";
     }
@@ -80,4 +82,4 @@ submitBtn.onclick = () => {
   });
 };
 
-updateGame();
+updateGame();  // *Ye line sabse important hai*
