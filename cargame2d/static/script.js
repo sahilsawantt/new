@@ -18,7 +18,7 @@ let lines = [
     document.getElementById("line3")
 ];
 
-let player = { speed: 5, score: 0, start: false };
+let player = { speed: 3, score: 0, start: false };
 
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
