@@ -31,7 +31,7 @@ body {
     position: absolute;
     bottom: 10px;
     left: 175px;
-    background: url('/static/images/player.png.jpng') no-repeat center center;
+    background: url('/static/images/player.png.jpeg') no-repeat center center;
     background-size: cover;
 }
 
