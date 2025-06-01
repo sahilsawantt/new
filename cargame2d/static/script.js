@@ -22,14 +22,28 @@ let player = { speed: 5, score: 0, start: false };
 let keys = {};
 let scoreCounter = 0;
 
+// 🎵 Load sounds
+const bgMusic = new Audio("/static/sounds/bg.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.4;
+
+const carSound = new Audio("/static/sounds/car.mp3");
+carSound.volume = 0.6;
+
+// 🎮 Keyboard input
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
+    if (["ArrowLeft", "ArrowRight"].includes(e.key) && player.start) {
+        carSound.currentTime = 0;
+        carSound.play();
+    }
 });
 
 document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
+// 🛣️ Move road lines
 function moveLines() {
     lines.forEach((line) => {
         let top = parseInt(line.style.top);
@@ -38,6 +52,7 @@ function moveLines() {
     });
 }
 
+// 🚘 Move enemies
 function moveEnemies() {
     enemies.forEach((enemy) => {
         let top = parseInt(enemy.style.top);
@@ -49,11 +64,14 @@ function moveEnemies() {
 
         if (isCollide(car, enemy)) {
             player.start = false;
+            bgMusic.pause();
+            carSound.pause();
             gameOver.style.display = "block";
         }
     });
 }
 
+// 🔍 Collision detection
 function isCollide(a, b) {
     let aRect = a.getBoundingClientRect();
     let bRect = b.getBoundingClientRect();
@@ -65,13 +83,13 @@ function isCollide(a, b) {
     );
 }
 
+// 🕹️ Main game loop
 function gamePlay() {
     if (!player.start) return;
 
     moveLines();
     moveEnemies();
 
-    // Movement fix
     let carLeft = parseInt(car.style.left) || 175;
 
     if (keys["ArrowLeft"] && carLeft > 0)
@@ -80,7 +98,6 @@ function gamePlay() {
     if (keys["ArrowRight"] && carLeft < 350)
         car.style.left = carLeft + player.speed + "px";
 
-    // Slower score update
     scoreCounter++;
     if (scoreCounter % 10 === 0) {
         player.score++;
@@ -90,6 +107,7 @@ function gamePlay() {
     requestAnimationFrame(gamePlay);
 }
 
+// ▶️ Start Game
 function startGame() {
     player.start = true;
     player.score = 0;
@@ -108,9 +126,14 @@ function startGame() {
     });
 
     gameOver.style.display = "none";
+    score.innerText = "Score: 0";
+    bgMusic.currentTime = 0;
+    bgMusic.play();
+
     requestAnimationFrame(gamePlay);
 }
 
+// 📝 Submit Score
 submitBtn?.addEventListener("click", () => {
     fetch("/submit", {
         method: "POST",
@@ -120,8 +143,10 @@ submitBtn?.addEventListener("click", () => {
         .then((res) => res.json())
         .then((data) => {
             alert(data.message);
-        });
+        })
+        .catch(err => alert("Error submitting score"));
 });
 
+// 🔁 Restart
 restartBtn?.addEventListener("click", startGame);
 window.onload = startGame;
