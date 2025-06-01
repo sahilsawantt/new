@@ -17,7 +17,7 @@ if (["ArrowLeft", "ArrowRight"].includes(e.key) && player.start) {
     carSound.play();
 }
 
-});
+
 
 document.addEventListener("keyup", (e) => { keys[e.key] = false; });
 
