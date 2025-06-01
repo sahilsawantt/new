@@ -28,7 +28,7 @@ bgMusic.loop = true;
 bgMusic.volume = 0.4;
 
 const carSound = new Audio("/static/sounds/car.mp3");
-carSound.volume = 0.6;
+carSound.volume = 0.2;
 
 // 🎮 Keyboard input
 document.addEventListener("keydown", (e) => {
