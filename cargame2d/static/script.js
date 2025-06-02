@@ -1,4 +1,4 @@
-// Get elements let car = document.getElementById("car"); let gameArea = document.getElementById("gameArea"); let score = document.getElementById("score"); let gameOver = document.getElementById("gameOver"); let submitBtn = document.getElementById("submitBtn"); let playerName = document.getElementById("PlayerName"); let restartBtn = document.getElementById("restartBtn");
+let car = document.getElementById("car"); let gameArea = document.getElementById("gameArea"); let score = document.getElementById("score"); let gameOver = document.getElementById("gameOver"); let submitBtn = document.getElementById("submitBtn"); let playerName = document.getElementById("PlayerName"); let restartBtn = document.getElementById("restartBtn");
 
 let enemies = [ document.getElementById("enemy1"), document.getElementById("enemy2"), document.getElementById("enemy3") ];
 
@@ -6,18 +6,13 @@ let lines = [ document.getElementById("line1"), document.getElementById("line2")
 
 let player = { speed: 5, score: 0, start: false }; let keys = {}; let scoreCounter = 0;
 
-// Load sounds const bgMusic = new Audio("/static/sounds/bg.mp3"); bgMusic.loop = true; bgMusic.volume = 0.4;
+// Sound setup const bgSound = new Audio("/static/sounds/bg.mp3"); bgSound.loop = true; bgSound.volume = 0.3;
 
-const carSound = new Audio("/static/sounds/car.mp3"); carSound.volume = 0.2;
+const carSound = new Audio("/static/sounds/car.mp3"); carSound.volume = 0.5;
 
-// Keyboard input document.addEventListener("keydown", (e) => { keys[e.key] = true;
+// Play background music on user interaction window.addEventListener("click", () => { if (player.start) { bgSound.play().catch(err => console.log("BG Sound error:", err)); } }, { once: true });
 
-if (["ArrowLeft", "ArrowRight"].includes(e.key) && player.start) {
-    carSound.currentTime = 0;
-    carSound.play();
-}
-
-
+document.addEventListener("keydown", (e) => { keys[e.key] = true; });
 
 document.addEventListener("keyup", (e) => { keys[e.key] = false; });
 
@@ -28,7 +23,8 @@ function moveEnemies() { enemies.forEach((enemy) => { let top = parseInt(enemy.s
 if (isCollide(car, enemy)) {
         player.start = false;
         gameOver.style.display = "block";
-        bgMusic.pause();
+        bgSound.pause();
+        bgSound.currentTime = 0;
     }
 });
 
@@ -42,10 +38,16 @@ moveLines();
 moveEnemies();
 
 let carLeft = parseInt(car.style.left) || 175;
-if (keys["ArrowLeft"] && carLeft > 0)
+
+if (keys["ArrowLeft"] && carLeft > 0) {
     car.style.left = carLeft - player.speed + "px";
-if (keys["ArrowRight"] && carLeft < 350)
+    carSound.play().catch(() => {});
+}
+
+if (keys["ArrowRight"] && carLeft < 350) {
     car.style.left = carLeft + player.speed + "px";
+    carSound.play().catch(() => {});
+}
 
 scoreCounter++;
 if (scoreCounter % 10 === 0) {
@@ -72,14 +74,11 @@ lines.forEach((line, index) => {
 });
 
 gameOver.style.display = "none";
-
-bgMusic.currentTime = 0;
-bgMusic.play();
-
+bgSound.play().catch(err => console.log("BG Sound start error:", err));
 requestAnimationFrame(gamePlay);
 
 }
 
-submitBtn?.addEventListener("click", () => { fetch("/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: playerName.value, score: player.score }), }) .then((res) => res.json()) .then((data) => { alert(data.message); }) .catch((err) => { alert("Score submission failed."); console.error(err); }); });
+submitBtn?.addEventListener("click", () => { fetch("/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: playerName.value, score: player.score }), }) .then((res) => res.json()) .then((data) => { alert(data.message); }); });
 
-restartBtn?.addEventListener("click", startGame); window.onload = () => { document.body.addEventListener("click", () => { if (!player.start) { bgMusic.play(); } }, { once: true }); startGame(); };
+restartBtn?.addEventListener("click", startGame); window.onload = startGame;
