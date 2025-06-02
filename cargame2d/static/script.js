@@ -9,7 +9,7 @@ let restartBtn = document.getElementById("restartBtn");
 // 🎵 Sound setup
 const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
-bgSound.volume = 1.3;
+bgSound.volume = 1.0;
 
 const carSound = new Audio("/static/sounds/car.mp3");
 carSound.volume = 0.5;
