@@ -136,9 +136,9 @@ function startGame() {
         line.style.left = "195px";
     });
 
-    // gameOver.style.display = "none";
-    // bgSound.play().catch(err => console.log("BG Sound start error:", err));
-    // requestAnimationFrame(gamePlay); 
+    gameOver.style.display = "none";
+    bgSound.play().catch(err => console.log("BG Sound start error:", err));
+    requestAnimationFrame(gamePlay); 
 
 window.addEventListener("click", () => {
   bgSound.play()
