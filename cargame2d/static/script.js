@@ -11,7 +11,7 @@ const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
 bgSound.volume = 0.5;
 
-let bgstarted = false;
+
 
 const carSound = new Audio("/static/sounds/car.mp3");
 carSound.volume = 0.5;
@@ -40,6 +40,10 @@ let scoreCounter = 0;
 //         bgSound.play().catch(err => console.log("BG Sound error:", err));
 //     }
 // }, { once: true });
+
+
+
+let bgstarted = false;
 
 window.addEventListener("click", () => {
     if (!bgstarted) {
