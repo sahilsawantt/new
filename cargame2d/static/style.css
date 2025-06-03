@@ -22,7 +22,3 @@
 
 #submitBtn, #restartBtn { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
 
-.enemy {
-    width: 100px;
-    height: 500px;
-}
