@@ -49,8 +49,11 @@ window.addEventListener("click", () => {
     if (!bgstarted) {
         bgSound.play().then(() => {
             bgstarted = true
-        }) .catch(err => 
-            console.logI("bg sound erroe:", err));
+
+            console.log("background music started");
+        }) 
+        .catch(err => 
+            console.logI("play error:", err));
         }
     });
 
