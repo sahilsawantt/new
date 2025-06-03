@@ -88,6 +88,7 @@ function moveEnemies() {
             gameOver.style.display = "block";
             bgSound.pause();
             bgSound.currentTime = 0;
+            bgstarted = false;
             carSound.pause();
            carSound.currentTime = 0;  
 
