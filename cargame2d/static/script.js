@@ -11,6 +11,8 @@ const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
 bgSound.volume = 0.5;
 
+let bgstarted = false;
+
 const carSound = new Audio("/static/sounds/car.mp3");
 carSound.volume = 0.5;
 
@@ -33,11 +35,20 @@ let keys = {};
 let scoreCounter = 0;
 
 // 🎵 Play background music on first user click
+// window.addEventListener("click", () => {
+//     if (player.start) {
+//         bgSound.play().catch(err => console.log("BG Sound error:", err));
+//     }
+// }, { once: true });
+
 window.addEventListener("click", () => {
-    if (player.start) {
-        bgSound.play().catch(err => console.log("BG Sound error:", err));
-    }
-}, { once: true });
+    if (!bgstarted) {
+        bgSound.play().then(() => {
+            bgstarted = true
+        }) .catch(err => 
+            console.logI("bg sound erroe:", err));
+        }
+    });
 
 // ⌨️ Keyboard input
 document.addEventListener("keydown", (e) => {
