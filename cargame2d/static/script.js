@@ -15,6 +15,7 @@ const carSound = new Audio("/static/sounds/car.mp3");
 carSound.volume = 0.5;
 
 
+
 let enemies = [
     document.getElementById("enemy1"),
     document.getElementById("enemy2"),
@@ -76,6 +77,9 @@ function moveEnemies() {
             gameOver.style.display = "block";
             bgSound.pause();
             bgSound.currentTime = 0;
+            carSound.pause();
+           carSound.currentTime = 0;  
+
         }
     });
 }
