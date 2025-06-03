@@ -6,7 +6,7 @@
 
 #gameArea { position: relative; width: 400px; height: 600px; margin: 0 auto; background: #333; overflow: hidden; border: 2px solid white; }
 
-#car { width: 100px; height: 100px; position: absolute; bottom: 10px; left: 175px; background: url('/static/images/player.png.jpeg') no-repeat center center; background-size: cover; z-index: 10; }
+#car { width: 50px; height: 100px; position: absolute; bottom: 10px; left: 175px; background: url('/static/images/player.png.jpeg') no-repeat center center; background-size: cover; z-index: 10; }
 
 .enemy { width: 50px; height: 100px; position: absolute; background-size: cover; }
 
@@ -22,3 +22,6 @@
 
 #submitBtn, #restartBtn { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
 
+.enemy {
+    width: 100px;
+}
