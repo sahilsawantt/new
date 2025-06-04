@@ -43,19 +43,18 @@ let scoreCounter = 0;
 
 
 
-let bgstarted = false;
+let bgStarted = false;
 
 window.addEventListener("click", () => {
-    if (!bgstarted) {
+    if (!bgStarted) {
         bgSound.play().then(() => {
-            bgstarted = true
-
-            console.log("background music started");
-        }) 
-        .catch(err => 
-            console.logI("play error:", err));
-        }
-    });
+            bgStarted = true;
+            console.log("BG sound started.");
+        }).catch(err => {
+            console.log("Autoplay Error:", err);
+        });
+    }
+});
 
 // ⌨️ Keyboard input
 document.addEventListener("keydown", (e) => {
