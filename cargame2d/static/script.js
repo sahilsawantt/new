@@ -106,11 +106,12 @@ function moveEnemies() {
 function isCollide(a, b) {
     let aRect = a.getBoundingClientRect();
     let bRect = b.getBoundingClientRect();
+
     return !(
-        aRect.bottom < bRect.top ||
-        aRect.top > bRect.bottom ||
-        aRect.right < bRect.left ||
-        aRect.left > bRect.right
+        (aRect.bottom - 10 < bRect.top) ||
+        (aRect.top + 10 > bRect.bottom) ||
+        (aRect.right - 10 < bRect.left) ||
+        (aRect.left + 10 > bRect.right)
     );
 }
 
