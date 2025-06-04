@@ -107,7 +107,7 @@ function isCollide(a, b) {
     const aRect = a.getBoundingClientRect();
     const bRect = b.getBoundingClientRect();
 
-    const buffer = 15; // जितनी दूरी तक छूट देनी है
+    const buffer = 25; // जितनी दूरी तक छूट देनी है
 
     return !(
         aRect.bottom - buffer < bRect.top ||
