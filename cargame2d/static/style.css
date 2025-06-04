@@ -22,7 +22,7 @@
 
 #submitBtn, #restartBtn { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
 
-enemy2 {
+#enemy2 {
     width: 50px; 
     height: 100px;
 }
