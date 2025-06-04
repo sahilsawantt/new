@@ -104,14 +104,16 @@ function moveEnemies() {
 
 // 🚨 Collision detection
 function isCollide(a, b) {
-    let aRect = a.getBoundingClientRect();
-    let bRect = b.getBoundingClientRect();
+    const aRect = a.getBoundingClientRect();
+    const bRect = b.getBoundingClientRect();
+
+    const buffer = 15; // जितनी दूरी तक छूट देनी है
 
     return !(
-        (aRect.bottom - 10 < bRect.top) ||
-        (aRect.top + 10 > bRect.bottom) ||
-        (aRect.right - 10 < bRect.left) ||
-        (aRect.left + 10 > bRect.right)
+        aRect.bottom - buffer < bRect.top ||
+        aRect.top + buffer > bRect.bottom ||
+        aRect.right - buffer < bRect.left ||
+        aRect.left + buffer > bRect.right
     );
 }
 
