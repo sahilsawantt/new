@@ -8,7 +8,7 @@
 
 #car { width: 65px; height: 110px; position: absolute; bottom: 10px; left: 175px; background: url('/static/images/player.png.jpeg') no-repeat center center; background-size: cover; z-index: 10; }
 
-.enemy { width: 50px; height: 100px; position: absolute; background-size: cover; }
+.enemy { width: 65px; height: 110px; position: absolute; background-size: cover; }
 
 #enemy1 { background-image: url('/static/images/enemy1.png'); }
 
