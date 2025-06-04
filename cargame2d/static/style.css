@@ -25,14 +25,20 @@
 #enemy2 {
     width: 55px; 
     height: 130px;
+    z-index: 3;
+    position: absolute;
 }
 
 #enemy3 {
       width: 60px; 
     height: 130px;
+    z-index: 3;
+    position: absolute;
 }
 
 #enemy3 {
       width: 60px; 
     height: 130px;
+    z-index: 3;
+    position: absolute;
 }
