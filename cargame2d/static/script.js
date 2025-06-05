@@ -5,7 +5,6 @@ let gameOver = document.getElementById("gameOver");
 let submitBtn = document.getElementById("submitBtn");
 let playerName = document.getElementById("PlayerName");
 let restartBtn = document.getElementById("restartBtn");
-let startBtn = document.getElementById("startBtn"); // ✅ Add this in your HTML
 
 const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
@@ -31,6 +30,14 @@ let keys = {};
 let scoreCounter = 0;
 let speedIncrement = 0.002;
 let maxSpeed = 10;
+let bgStarted = false;
+
+// 🎵 Sound only starts after game starts
+document.getElementById("gameArea").addEventListener("click", () => {
+    if (!player.start) {
+        startGame();
+    }
+});
 
 // ⌨️ Controls
 document.addEventListener("keydown", (e) => {
@@ -107,8 +114,6 @@ function gamePlay() {
 
 // ▶️ Start Game
 function startGame() {
-    if (player.start) return; // prevent double start
-
     player = { speed: 5, score: 0, start: true };
     scoreCounter = 0;
     score.innerText = "Score: 0";
@@ -126,11 +131,12 @@ function startGame() {
     });
 
     gameOver.style.display = "none";
-    restartBtn.style.display = "none";
-    startBtn.style.display = "none";
 
-    bgSound.currentTime = 0;
-    bgSound.play().catch(() => {});
+    if (!bgStarted) {
+        bgSound.play().catch(() => {});
+        bgStarted = true;
+    }
+
     requestAnimationFrame(gamePlay);
 }
 
@@ -138,10 +144,10 @@ function startGame() {
 function endGame() {
     player.start = false;
     gameOver.style.display = "block";
-    restartBtn.style.display = "block";
 
     bgSound.pause();
     bgSound.currentTime = 0;
+    bgStarted = false;
 
     carSound.pause();
     carSound.currentTime = 0;
@@ -160,10 +166,6 @@ submitBtn?.addEventListener("click", () => {
 
 // 🔁 Restart
 restartBtn?.addEventListener("click", () => {
-    startGame();
-});
-
-// ▶️ Start from Start Button
-startBtn?.addEventListener("click", () => {
+    console.log("Restart clicked");
     startGame();
 });
