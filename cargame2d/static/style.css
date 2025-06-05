@@ -18,9 +18,9 @@
 
 .line { position: absolute; width: 5px; height: 100px; background: white; z-index: 1; }
 
-#gameOver { position:relative; top: 250px; left: 100px; display: none; font-size: 24px; color: red; z-index: 1; }
+#gameOver { position:relative; top: 250px; left: 100px; display: none; font-size: 24px; color: red; z-index: 1001; }
 
-#submitBtn, #restartBtn { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
+#submitBtn, #restartBtn { margin-top: 10px; padding: 5px 10px; cursor: pointer; z-index: 1001; }
 
 #enemy2 {
     width: 55px; 
