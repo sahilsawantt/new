@@ -1,5 +1,3 @@
-
-
 let car = document.getElementById("car");
 let gameArea = document.getElementById("gameArea");
 let score = document.getElementById("score");
@@ -32,14 +30,6 @@ let keys = {};
 let scoreCounter = 0;
 let speedIncrement = 0.002;
 let maxSpeed = 10;
-let bgStarted = false;
-
-// 🎵 Sound only starts after game starts
-document.getElementById("gameArea").addEventListener("click", () => {
-    if (!player.start) {
-        startGame();
-    }
-});
 
 // ⌨️ Controls
 document.addEventListener("keydown", (e) => {
@@ -114,7 +104,7 @@ function gamePlay() {
     requestAnimationFrame(gamePlay);
 }
 
-// ▶️ Start Game
+// ▶️ Start Game (called only on restart click)
 function startGame() {
     player = { speed: 5, score: 0, start: true };
     scoreCounter = 0;
@@ -134,11 +124,8 @@ function startGame() {
 
     gameOver.style.display = "none";
 
-    if (!bgStarted) {
-        bgSound.play().catch(() => {});
-        bgStarted = true;
-    }
-
+    bgSound.currentTime = 0;
+    bgSound.play().catch(() => {});
     requestAnimationFrame(gamePlay);
 }
 
@@ -149,7 +136,6 @@ function endGame() {
 
     bgSound.pause();
     bgSound.currentTime = 0;
-    bgStarted = false;
 
     carSound.pause();
     carSound.currentTime = 0;
@@ -166,7 +152,7 @@ submitBtn?.addEventListener("click", () => {
         .then((data) => alert(data.message));
 });
 
-// 🔁 Restart
+// 🔁 Restart only starts the game
 restartBtn?.addEventListener("click", () => {
     console.log("Restart clicked");
     startGame();
