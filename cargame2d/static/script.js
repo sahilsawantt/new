@@ -33,7 +33,17 @@ let maxSpeed = 10;
 let bgStarted = false;
 
 // 🎵 Sound only starts after game starts
-document.getElementById("gameArea").addEventListener("click", () => {
+// document.getElementById("gameArea").addEventListener("click", () => {
+//     if (!player.start) {
+//         startGame();
+//     }
+// });
+
+document.getElementById("gameArea").addEventListener("click", (e) => {
+    // अगर क्लिक input या button पर हुआ, तो return कर दो (मत चलाओ game)
+    const tag = e.target.tagName.toLowerCase();
+    if (tag === "input" || tag === "button") return;
+
     if (!player.start) {
         startGame();
     }
