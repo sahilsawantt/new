@@ -5,6 +5,7 @@ let gameOver = document.getElementById("gameOver");
 let submitBtn = document.getElementById("submitBtn");
 let playerName = document.getElementById("PlayerName");
 let restartBtn = document.getElementById("restartBtn");
+let startBtn = document.getElementById("startBtn"); // ✅ Add this in your HTML
 
 const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
@@ -104,8 +105,10 @@ function gamePlay() {
     requestAnimationFrame(gamePlay);
 }
 
-// ▶️ Start Game (called only on restart click)
+// ▶️ Start Game
 function startGame() {
+    if (player.start) return; // prevent double start
+
     player = { speed: 5, score: 0, start: true };
     scoreCounter = 0;
     score.innerText = "Score: 0";
@@ -123,6 +126,8 @@ function startGame() {
     });
 
     gameOver.style.display = "none";
+    restartBtn.style.display = "none";
+    startBtn.style.display = "none";
 
     bgSound.currentTime = 0;
     bgSound.play().catch(() => {});
@@ -133,6 +138,7 @@ function startGame() {
 function endGame() {
     player.start = false;
     gameOver.style.display = "block";
+    restartBtn.style.display = "block";
 
     bgSound.pause();
     bgSound.currentTime = 0;
@@ -152,8 +158,12 @@ submitBtn?.addEventListener("click", () => {
         .then((data) => alert(data.message));
 });
 
-// 🔁 Restart only starts the game
+// 🔁 Restart
 restartBtn?.addEventListener("click", () => {
-    console.log("Restart clicked");
+    startGame();
+});
+
+// ▶️ Start from Start Button
+startBtn?.addEventListener("click", () => {
     startGame();
 });
