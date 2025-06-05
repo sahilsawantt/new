@@ -6,6 +6,14 @@ let submitBtn = document.getElementById("submitBtn");
 let playerName = document.getElementById("PlayerName");
 let restartBtn = document.getElementById("restartBtn");
 
+// new added.......
+
+let enemy = [
+    document.getElementById("enemy1"),
+    document.getElementById("enemy1"),
+    document.getElementById("enemy1")
+];
+
 // 🎵 Sound setup
 const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
@@ -104,6 +112,17 @@ function moveEnemies() {
     });
 }
 
+   // Show enemies again
+    enemies.forEach(enemy => {
+        enemy.style.display = "block";
+    });
+
+    // Hide score form
+    document.getElementById("scoreForm").style.display = "none";
+
+    window.requestAnimationFrame(gamePlay);
+
+
 // 🚨 Collision detection
 function isCollide(a, b) {
     const aRect = a.getBoundingClientRect();
@@ -155,6 +174,18 @@ function startGame() {
     player.score = 0;
     scoreCounter = 0;
 
+   // Show enemies again
+    enemies.forEach(enemy => {
+        enemy.style.display = "block";
+    });
+
+    // Hide score form
+    document.getElementById("scoreForm").style.display = "none";
+
+    window.requestAnimationFrame(gamePlay);
+}
+
+
     car.style.left = "175px";
 
     enemies.forEach((enemy, index) => {
@@ -177,7 +208,7 @@ window.addEventListener("click", () => {
     .catch(err => console.log("BG Sound play error:", err));
 }, { once: true });
 
-}
+
 
 // 📤 Submit score to backend
 submitBtn?.addEventListener("click", () => {
