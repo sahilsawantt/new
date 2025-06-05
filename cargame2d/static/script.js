@@ -22,7 +22,7 @@ bgSound.volume = 0.5;
 
 
 const carSound = new Audio("/static/sounds/car.mp3");
-carSound.volume = 0.5;
+carSound.volume = 0.6;
 
 
 
