@@ -17,7 +17,7 @@ let restartBtn = document.getElementById("restartBtn");
 // 🎵 Sound setup
 const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
-bgSound.volume = 0.5;
+bgSound.volume = 0.4;
 
 
 
