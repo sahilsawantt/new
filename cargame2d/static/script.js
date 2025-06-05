@@ -8,11 +8,11 @@ let restartBtn = document.getElementById("restartBtn");
 
 // new added.......
 
-let enemy = [
-    document.getElementById("enemy1"),
-    document.getElementById("enemy1"),
-    document.getElementById("enemy1")
-];
+// let enemy = [
+//     document.getElementById("enemy1"),
+//     document.getElementById("enemy1"),
+//     document.getElementById("enemy1")
+// ];
 
 // 🎵 Sound setup
 const bgSound = new Audio("/static/sounds/bg.mp3");
@@ -112,13 +112,13 @@ function moveEnemies() {
     });
 }
 
-   // Show enemies again
-    enemies.forEach(enemy => {
-        enemy.style.display = "block";
-    });
+//    // Show enemies again
+//     enemies.forEach(enemy => {
+//         enemy.style.display = "block";
+//     });
 
-    // Hide score form
-    document.getElementById("scoreForm").style.display = "none";
+//     // Hide score form
+//     document.getElementById("scoreForm").style.display = "none";
 
     window.requestAnimationFrame(gamePlay);
 
@@ -174,13 +174,13 @@ function startGame() {
     player.score = 0;
     scoreCounter = 0;
 
-   // Show enemies again
-    enemies.forEach(enemy => {
-        enemy.style.display = "block";
-    });
+//    // Show enemies again
+//     enemies.forEach(enemy => {
+//         enemy.style.display = "block";
+//     });
 
-    // Hide score form
-    document.getElementById("scoreForm").style.display = "none";
+//     // Hide score form
+//     document.getElementById("scoreForm").style.display = "none";
 
     window.requestAnimationFrame(gamePlay);
 }
