@@ -16,7 +16,7 @@
 
 #enemy3 { background-image: url('/static/images/enemy3.png'); }
 
-.line { position: relative; width: 5px; height: 100px; background: white; z-index: 1; }
+.line { position: absolute; width: 5px; height: 100px; background: white; z-index: 1; }
 
 #gameOver { position: absolute; top: 250px; left: 100px; display: none; font-size: 24px; color: red; z-index: 1; }
 
