@@ -33,8 +33,8 @@ let lines = [
 let player = { speed: 5, score: 0, start: false };
 let keys = {};
 let scoreCounter = 0;
-let speedincrement = 0.01;
-let maxspeed = 5;
+let speedincrement = 0.002;
+let maxspeed = 10;
 
 // 🎵 Play background music on first user click
 // window.addEventListener("click", () => {
