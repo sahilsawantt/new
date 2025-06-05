@@ -1,3 +1,5 @@
+
+
 let car = document.getElementById("car");
 let gameArea = document.getElementById("gameArea");
 let score = document.getElementById("score");
@@ -6,21 +8,12 @@ let submitBtn = document.getElementById("submitBtn");
 let playerName = document.getElementById("PlayerName");
 let restartBtn = document.getElementById("restartBtn");
 
-
-
-
-// 🎵 Sound setup
 const bgSound = new Audio("/static/sounds/bg.mp3");
 bgSound.loop = true;
 bgSound.volume = 0.4;
 
-
-
-
 const carSound = new Audio("/static/sounds/car.mp3");
 carSound.volume = 0.6;
-
-
 
 let enemies = [
     document.getElementById("enemy1"),
@@ -37,27 +30,18 @@ let lines = [
 let player = { speed: 5, score: 0, start: false };
 let keys = {};
 let scoreCounter = 0;
-let speedincrement = 0.002;
-let maxspeed = 10;
-
-
-
-
-
+let speedIncrement = 0.002;
+let maxSpeed = 10;
 let bgStarted = false;
 
-window.addEventListener("click", () => {
-    if (!bgStarted) {
-        bgSound.play().then(() => {
-            bgStarted = true;
-            console.log("BG sound started.");
-        }).catch(err => {
-            console.log("Autoplay Error:", err);
-        });
+// 🎵 Sound only starts after game starts
+document.getElementById("gameArea").addEventListener("click", () => {
+    if (!player.start) {
+        startGame();
     }
 });
 
-// ⌨️ Keyboard input
+// ⌨️ Controls
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
 
@@ -71,7 +55,7 @@ document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
-// 🛣️ Move road lines
+// 🛣️ Road
 function moveLines() {
     lines.forEach((line) => {
         let top = parseInt(line.style.top);
@@ -80,7 +64,7 @@ function moveLines() {
     });
 }
 
-// 🚗 Move enemy cars
+// 🚗 Enemies
 function moveEnemies() {
     enemies.forEach((enemy) => {
         let top = parseInt(enemy.style.top);
@@ -91,28 +75,15 @@ function moveEnemies() {
         enemy.style.top = top + player.speed + "px";
 
         if (isCollide(car, enemy)) {
-            player.start = false;
-            gameOver.style.display = "block";
-            bgSound.pause();
-            bgSound.currentTime = 0;
-            bgstarted = false;
-            carSound.pause();
-           carSound.currentTime = 0;  
-
+            endGame();
         }
     });
 }
 
-
-    window.requestAnimationFrame(gamePlay);
-
-
-// 🚨 Collision detection
 function isCollide(a, b) {
     const aRect = a.getBoundingClientRect();
     const bRect = b.getBoundingClientRect();
-
-    const buffer = 25; // जितनी दूरी तक छूट देनी है
+    const buffer = 25;
 
     return !(
         aRect.bottom - buffer < bRect.top ||
@@ -122,26 +93,17 @@ function isCollide(a, b) {
     );
 }
 
-// 🕹️ Game play loop
 function gamePlay() {
     if (!player.start) return;
 
-    if (player.start < maxspeed) {
-         player.speed += speedincrement;
-    }
+    if (player.speed < maxSpeed) player.speed += speedIncrement;
 
     moveLines();
     moveEnemies();
 
     let carLeft = parseInt(car.style.left) || 175;
-
-    if (keys["ArrowLeft"] && carLeft > 0) {
-        car.style.left = carLeft - player.speed + "px";
-    }
-
-    if (keys["ArrowRight"] && carLeft < 350) {
-        car.style.left = carLeft + player.speed + "px";
-    }
+    if (keys["ArrowLeft"] && carLeft > 0) car.style.left = carLeft - player.speed + "px";
+    if (keys["ArrowRight"] && carLeft < 350) car.style.left = carLeft + player.speed + "px";
 
     scoreCounter++;
     if (scoreCounter % 10 === 0) {
@@ -152,18 +114,13 @@ function gamePlay() {
     requestAnimationFrame(gamePlay);
 }
 
-// ▶️ Start game
+// ▶️ Start Game
 function startGame() {
-    player.start = true;
-    player.score = 0;
+    player = { speed: 5, score: 0, start: true };
     scoreCounter = 0;
-
-
-    window.requestAnimationFrame(gamePlay);
-}
-
-
+    score.innerText = "Score: 0";
     car.style.left = "175px";
+    car.style.bottom = "10px";
 
     enemies.forEach((enemy, index) => {
         enemy.style.top = (index + 1) * -150 + "px";
@@ -176,18 +133,29 @@ function startGame() {
     });
 
     gameOver.style.display = "none";
-    bgSound.play().catch(err => console.log("BG Sound start error:", err));
-    requestAnimationFrame(gamePlay); 
 
-window.addEventListener("click", () => {
-  bgSound.play()
-    .then(() => console.log("BG music started"))
-    .catch(err => console.log("BG Sound play error:", err));
-}, { once: true });
+    if (!bgStarted) {
+        bgSound.play().catch(() => {});
+        bgStarted = true;
+    }
 
+    requestAnimationFrame(gamePlay);
+}
 
+// 💥 End Game
+function endGame() {
+    player.start = false;
+    gameOver.style.display = "block";
 
-// 📤 Submit score to backend
+    bgSound.pause();
+    bgSound.currentTime = 0;
+    bgStarted = false;
+
+    carSound.pause();
+    carSound.currentTime = 0;
+}
+
+// 📤 Submit
 submitBtn?.addEventListener("click", () => {
     fetch("/submit", {
         method: "POST",
@@ -195,23 +163,11 @@ submitBtn?.addEventListener("click", () => {
         body: JSON.stringify({ name: playerName.value, score: player.score }),
     })
         .then((res) => res.json())
-        .then((data) => {
-            alert(data.message);
-        });
+        .then((data) => alert(data.message));
 });
 
-// 🔁 Restart game
-
-
-
-if (restartBtn) {
-    restartBtn.addEventListener("click", 
-        () => {
-            console.log("restart clicked");
-            startGame();
-        });
-}
-
-
-// ✅ Start automatically
-window.onload = startGame;
+// 🔁 Restart
+restartBtn?.addEventListener("click", () => {
+    console.log("Restart clicked");
+    startGame();
+});
