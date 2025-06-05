@@ -146,6 +146,8 @@ if (player.start) return;
 
     gameOver.style.display = "none";
 
+    playerName.value = "";
+
     if (!bgStarted) {
         bgSound.play().catch(() => {});
         bgStarted = true;
