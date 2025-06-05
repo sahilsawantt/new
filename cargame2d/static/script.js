@@ -34,7 +34,7 @@ let player = { speed: 5, score: 0, start: false };
 let keys = {};
 let scoreCounter = 0;
 let speedincrement = 0.01;
-let maxspeed = 20;
+let maxspeed = 15;
 
 // 🎵 Play background music on first user click
 // window.addEventListener("click", () => {
