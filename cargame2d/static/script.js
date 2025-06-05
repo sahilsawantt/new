@@ -113,7 +113,11 @@ function gamePlay() {
 }
 
 // ▶️ Start Game
+
 function startGame() {
+ 
+if (player.start) return;
+
     player = { speed: 5, score: 0, start: true };
     scoreCounter = 0;
     score.innerText = "Score: 0";
