@@ -201,7 +201,11 @@ submitBtn?.addEventListener("click", () => {
 });
 
 // 🔁 Restart game
-restartBtn?.addEventListener("click", startGame);
+
+if (restartBtn) {
+
+restartBtn.addEventListener("click", startGame); 
+}
 
 // ✅ Start automatically
 window.onload = startGame;
