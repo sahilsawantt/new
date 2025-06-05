@@ -40,12 +40,7 @@ let scoreCounter = 0;
 let speedincrement = 0.002;
 let maxspeed = 10;
 
-// 🎵 Play background music on first user click
-// window.addEventListener("click", () => {
-//     if (player.start) {
-//         bgSound.play().catch(err => console.log("BG Sound error:", err));
-//     }
-// }, { once: true });
+
 
 
 
