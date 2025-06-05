@@ -33,6 +33,8 @@ let lines = [
 let player = { speed: 5, score: 0, start: false };
 let keys = {};
 let scoreCounter = 0;
+let speedincrement = 0.01;
+let maxspeed = 25;
 
 // 🎵 Play background music on first user click
 // window.addEventListener("click", () => {
@@ -120,6 +122,10 @@ function isCollide(a, b) {
 // 🕹️ Game play loop
 function gamePlay() {
     if (!player.start) return;
+
+    if (player.start < maxspeed) {
+         player.speed += speedincrement;
+    }
 
     moveLines();
     moveEnemies();
