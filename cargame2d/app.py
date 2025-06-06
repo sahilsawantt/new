@@ -1,8 +1,16 @@
+import os
+
+
 from flask import Flask, render_template, request, jsonify
 import json, os
 
 app = Flask(__name__)
 SCORE_FILE = "scores.json"
+
+if __name__ ==  "__main__":
+     app.run(host='0.0.0.0',
+             port=int(os.environ.get("port",5000
+                                     )))
 
 @app.route("/")
 def index():
